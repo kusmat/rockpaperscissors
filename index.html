@@ -1,0 +1,209 @@
+<script>
+
+
+<!--getComputerChoice that will randomly return either ‘Rock’, ‘Paper’ or ‘Scissors’ -->
+
+// function testConsole (number){
+//     return number*number;
+// }
+
+// console.log(testConsole(5));
+
+function getComputerChoice(){
+    
+    let numericChoice = 0;
+    let computerChoice = "";
+
+    numericChoice = Math.floor(Math.random()*(3-0) + 1);
+
+    switch (numericChoice) {
+
+    case 1:
+    computerChoice = "Rock"
+    break;
+
+    case 2:
+    computerChoice = "Paper"
+    break;
+    
+    case 3:
+    computerChoice = "Scissors"
+    break;
+    
+    default:
+    console.log("error - check code")
+    }
+    
+    console.log(numericChoice + " - " + computerChoice);
+
+    return computerChoice;
+}
+
+function getPlayersChoice(){
+    
+    console.log("Player will select the choice by typing number of the selection");
+    
+    let numericChoice = 0; 
+    let playerChoice = "";
+
+    while (numericChoice <1 || numericChoice >3){
+        numericChoice = Number(prompt("Select from the following options: 1-Rock, 2-Paper, 3-Scissors:"));
+        console.log("Enter number between 1 and 3");
+    }
+    
+    switch (numericChoice) {
+
+    case 1:
+    playerChoice = "Rock"
+    break;
+
+    case 2:
+    playerChoice = "Paper"
+    break;
+
+    case 3:
+    playerChoice = "Scissors"
+    break;
+
+    default:
+    console.log("error - check code")
+    }
+
+    console.log("Player selected choice no: " + numericChoice + " - " + playerChoice);
+
+    return playerChoice;
+}
+
+function playRound(playerSelection, computerSelection){
+
+    playerSelection =  getPlayersChoice();
+    computerSelection = getComputerChoice();
+
+    console.log ("computer: " + computerSelection);
+    console.log ("player: " + playerSelection);
+
+    let result = "error";
+    let computerScore = 0;
+    let playerScore = 0;
+
+    if (playerSelection.toLowerCase() == "rock")
+    {
+        if (computerSelection.toLowerCase() == "rock"){
+            result = "Draw";
+            computerScore += 0.5;
+            playerScore += 0.5;
+            console.log("Draw");
+        }
+    
+        else if (computerSelection.toLowerCase() == "paper"){
+            
+            result = "Computer Wins";
+            computerScore += 1;
+            playerScore += 0;
+            console.log("Computer wins");
+
+        }
+        else{
+            result = "Player Wins"
+            computerScore += 0;
+            playerScore += 1;
+            console.log("Player wins");
+
+        }
+
+    } 
+
+    if (playerSelection.toLowerCase() == "paper")
+    {
+        if (computerSelection.toLowerCase() == "paper"){
+            result = "Draw";
+            computerScore += 0.5;
+            playerScore += 0.5;
+            console.log("Draw");
+        }
+    
+        else if (computerSelection.toLowerCase() == "scissors"){
+            
+            result = "Computer Wins";
+            computerScore += 1;
+            playerScore += 0;
+            console.log("Computer wins");
+
+        }
+        else{
+            result = "Player Wins"
+            computerScore += 0;
+            playerScore += 1;
+            console.log("Player wins");
+
+        }
+
+    }
+    
+    if (playerSelection.toLowerCase() == "scissors")
+    {
+        if (computerSelection.toLowerCase() == "scissors"){
+            result = "Draw";
+            computerScore += 0.5;
+            playerScore += 0.5;
+            console.log("Draw");
+        }
+    
+        else if (computerSelection.toLowerCase() == "rock"){
+            
+            result = "Computer Wins";
+            computerScore += 1;
+            playerScore += 0;
+            console.log("Computer wins");
+
+        }
+        else{
+            result = "Player Wins"
+            computerScore += 0;
+            playerScore += 1;
+            console.log("Player wins");
+
+        }
+
+    } 
+    console.log("Player - " + playerSelection + " " + playerScore + " : " + computerScore + " " + computerSelection + " - Computer")
+
+    return [playerScore, computerScore];
+    
+}
+
+let player_score = 0;
+let computer_score = 0;
+
+function game(){
+
+    for (let i = 0; i<5; i++){
+
+        round_results = playRound(playerSelection, computerSelection);
+        player_score += round_results[0];
+        computer_score += round_results[1];
+        console.log("Player: " + player_score);
+        console.log("Computer: " + computer_score);
+
+    }
+
+    if (player_score==computer_score){
+        console.log ("That's a draw!");
+    }
+    else if (player_score>computer_score){
+        console.log("Player won!");
+    }
+    else {
+        console.log("Computer won!");
+    }
+
+}
+
+const playerSelection = "Rock";
+const computerSelection = getComputerChoice();
+
+game();
+
+
+
+ </script>
