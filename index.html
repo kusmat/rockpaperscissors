@@ -1,13 +1,52 @@
+<html>
+
+<h1 id="start"></h1>
+
+
+<div id="container"></div>
+
+<p id="divider"></p>
+
+</p><div id="results"></div>
+
+<p id="end"></p>
 <script>
 
+// https://developer.mozilla.org/en-US/docs/Web/API/EventTarget/addEventListener#getting_data_into_and_out_of_an_event_listener
 
-<!--getComputerChoice that will randomly return either ‘Rock’, ‘Paper’ or ‘Scissors’ -->
+//Welcome message
+document.getElementById("start").innerHTML = "Welcome to the Rock-paper-scissors game!";
+const container = document.querySelector('#container');
+const selectMessage = document.createElement('h3');
+selectMessage.classList.add('InstructionText');
+selectMessage.textContent = 'Select one of the options below: '
+container.append(selectMessage);
 
-// function testConsole (number){
-//     return number*number;
-// }
+// Buttons
+let out;
+const buttonRock = document.createElement('button');
+buttonRock.classList.add('button');
+buttonRock.textContent = 'Rock';
+buttonRock.addEventListener('click', function() {out = playRound('Rock'); game(out)})
+container.append(buttonRock);
 
-// console.log(testConsole(5));
+const buttonPaper = document.createElement('button');
+buttonPaper.classList.add('button');
+buttonPaper.textContent = 'Paper';
+buttonPaper.addEventListener('click', ()=> playRound('Paper'))
+container.append(buttonPaper);
+
+const buttonScissors = document.createElement('button');
+buttonScissors.classList.add('button');
+buttonScissors.textContent = 'Scissors';
+buttonScissors.addEventListener('click', ()=> playRound('Scissors'))
+container.append(buttonScissors);
+
+//Displaying results
+const results = document.getElementById('results');
+results.innerHTML = ``;
+
+
 
 function getComputerChoice(){
     
@@ -39,45 +78,9 @@ function getComputerChoice(){
     return computerChoice;
 }
 
-function getPlayersChoice(){
-    
-    console.log("Player will select the choice by typing number of the selection");
-    
-    let numericChoice = 0; 
-    let playerChoice = "";
+function playRound(playerSelection){
 
-    while (numericChoice <1 || numericChoice >3){
-        numericChoice = Number(prompt("Select from the following options: 1-Rock, 2-Paper, 3-Scissors:"));
-        console.log("Enter number between 1 and 3");
-    }
-    
-    switch (numericChoice) {
-
-    case 1:
-    playerChoice = "Rock"
-    break;
-
-    case 2:
-    playerChoice = "Paper"
-    break;
-
-    case 3:
-    playerChoice = "Scissors"
-    break;
-
-    default:
-    console.log("error - check code")
-    }
-
-    console.log("Player selected choice no: " + numericChoice + " - " + playerChoice);
-
-    return playerChoice;
-}
-
-function playRound(playerSelection, computerSelection){
-
-    playerSelection =  getPlayersChoice();
-    computerSelection = getComputerChoice();
+    let computerSelection = getComputerChoice();
 
     console.log ("computer: " + computerSelection);
     console.log ("player: " + playerSelection);
@@ -90,23 +93,23 @@ function playRound(playerSelection, computerSelection){
     {
         if (computerSelection.toLowerCase() == "rock"){
             result = "Draw";
-            computerScore += 0.5;
-            playerScore += 0.5;
+            computerScore = 0.5;
+            playerScore = 0.5;
             console.log("Draw");
         }
     
         else if (computerSelection.toLowerCase() == "paper"){
             
             result = "Computer Wins";
-            computerScore += 1;
-            playerScore += 0;
+            computerScore = 1;
+            playerScore = 0;
             console.log("Computer wins");
 
         }
         else{
             result = "Player Wins"
-            computerScore += 0;
-            playerScore += 1;
+            computerScore = 0;
+            playerScore = 1;
             console.log("Player wins");
 
         }
@@ -117,23 +120,23 @@ function playRound(playerSelection, computerSelection){
     {
         if (computerSelection.toLowerCase() == "paper"){
             result = "Draw";
-            computerScore += 0.5;
-            playerScore += 0.5;
+            computerScore = 0.5;
+            playerScore = 0.5;
             console.log("Draw");
         }
     
         else if (computerSelection.toLowerCase() == "scissors"){
             
             result = "Computer Wins";
-            computerScore += 1;
-            playerScore += 0;
+            computerScore = 1;
+            playerScore = 0;
             console.log("Computer wins");
 
         }
         else{
             result = "Player Wins"
-            computerScore += 0;
-            playerScore += 1;
+            computerScore = 0;
+            playerScore = 1;
             console.log("Player wins");
 
         }
@@ -144,66 +147,78 @@ function playRound(playerSelection, computerSelection){
     {
         if (computerSelection.toLowerCase() == "scissors"){
             result = "Draw";
-            computerScore += 0.5;
-            playerScore += 0.5;
+            computerScore = 0.5;
+            playerScore = 0.5;
             console.log("Draw");
         }
     
         else if (computerSelection.toLowerCase() == "rock"){
             
             result = "Computer Wins";
-            computerScore += 1;
-            playerScore += 0;
+            computerScore = 1;
+            playerScore = 0;
             console.log("Computer wins");
 
         }
         else{
             result = "Player Wins"
-            computerScore += 0;
-            playerScore += 1;
+            computerScore = 0;
+            playerScore = 1;
             console.log("Player wins");
 
         }
 
     } 
-    console.log("Player - " + playerSelection + " " + playerScore + " : " + computerScore + " " + computerSelection + " - Computer")
+    // console.log("Player - " + playerSelection + " " + playerScore + " : " + computerScore + " " + computerSelection + " - Computer")
 
-    return [playerScore, computerScore];
+    return [result, playerScore, computerScore, playerSelection, computerSelection];
     
 }
 
 let player_score = 0;
 let computer_score = 0;
+let counter =0;
 
-function game(){
+function game(out){
 
-    for (let i = 0; i<5; i++){
+    counter++;
+        
+    computer_score += out[2];
+    player_score += out[1];
 
-        round_results = playRound(playerSelection, computerSelection);
-        player_score += round_results[0];
-        computer_score += round_results[1];
-        console.log("Player: " + player_score);
-        console.log("Computer: " + computer_score);
+    if (computer_score<5 && player_score<5){
+
+
+    results.innerHTML = `Game 3${counter}:You selected ${out[3]}, computer selected ${out[4]}. ${out[0]} --> score is Player:${player_score}, Computer: ${computer_score}`
 
     }
+    else{
 
-    if (player_score==computer_score){
-        console.log ("That's a draw!");
+        if (computer_score>player_score){
+            
+            result = 'Computer Won!'
+        }
+        else if (computer_score==player_score){
+            result = 'It\'s a draw'
+        }
+        else{
+            result = 'Player Won!'
+        }
+        
+        results.
+        results.innerHTML = `GAME OVER: ${result}. Score is Player:${player_score}, Computer: ${computer_score}`
+        newGame();
     }
-    else if (player_score>computer_score){
-        console.log("Player won!");
-    }
-    else {
-        console.log("Computer won!");
-    }
+}
+
+function newGame()
+{
+    player_score = 0;
+    computer_score = 0;
+    counter =0;
 
 }
 
-const playerSelection = "Rock";
-const computerSelection = getComputerChoice();
+</script>
 
-game();
-
-
-
- </script>
+ </html>
